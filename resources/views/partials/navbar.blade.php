@@ -19,6 +19,7 @@
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
             </a>
         </div>
+        {{-- Bagian ini san --}}
         <div class="items-center justify-between hidden w-full mt-1 mx-2 lg:flex lg:w-auto md:order-1" id="navbar-user">
             <ul
                 class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
