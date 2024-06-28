@@ -19,17 +19,18 @@
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
             </a>
         </div>
-        {{-- Bagian ini san --}}
+
+        {{-- Bagian ini san yang diberesin --}}
         <div class="items-center justify-between hidden w-full mt-1 mx-2 lg:flex lg:w-auto md:order-1" id="navbar-user">
             <ul
                 class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
                 <li>
-                    <a href="#"
+                    <a href="/"
                         class="block py-2 px-3 text-white bg-blue-700 rounded lg:bg-transparent lg:text-blue-700 lg:p-0 lg:dark:text-blue-500"
                         aria-current="page">Home</a>
                 </li>
                 <li>
-                    <a href="#"
+                    <a href="/materi"
                         class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Materi</a>
                 </li>
             </ul>
