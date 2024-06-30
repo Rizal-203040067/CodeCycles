@@ -23,8 +23,4 @@
     <div class="popup" id="startScenarioPopup">
         <button onclick="startScenario()">Start Scenario</button>
     </div>
-    </main>
-
-    <script src="/js/module.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
 </x-layout>
