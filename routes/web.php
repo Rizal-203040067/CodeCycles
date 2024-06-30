@@ -9,3 +9,7 @@ Route::get('/', function () {
 Route::get('/materi', function () {
     return view('materi');
 });
+
+// Route::get('/', function () {
+//     return view('home', ['title' => 'Home Page']);
+// });
