@@ -1,7 +1,7 @@
 <nav class="bg-white border-gray-200 dark:bg-gray-900">
     <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <div class="flex flex-wrap items-center gap-2">
-            {{-- Hamburger Menu --}}
+        <div class="flex items-center gap-2">
+            <!-- Hamburger Menu -->
             <button data-collapse-toggle="navbar-user" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                 aria-controls="navbar-user" aria-expanded="false">
@@ -13,30 +13,16 @@
                 </svg>
             </button>
 
-            {{-- Logo --}}
+            <!-- Logo -->
             <a href="https://flowbite.com/" class="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="https://flowbite.com/docs/images/logo.svg" class="h-8" alt="Flowbite Logo" />
                 <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
             </a>
         </div>
 
-        {{-- Bagian ini san yang diberesin --}}
-        <div class="items-center justify-between hidden w-full mt-1 mx-2 lg:flex lg:w-auto md:order-1" id="navbar-user">
-            <ul
-                class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
-                <li>
-                    <a href="/"
-                        class="block py-2 px-3 text-white bg-blue-700 rounded lg:bg-transparent lg:text-blue-700 lg:p-0 lg:dark:text-blue-500"
-                        aria-current="page">Home</a>
-                </li>
-                <li>
-                    <a href="/materi"
-                        class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-blue-700 lg:p-0 dark:text-white lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Materi</a>
-                </li>
-            </ul>
-        </div>
+        <!-- User and Dark Mode Buttons Jadi di atas -->
         <div class="flex items-center lg:order-2 space-x-3 lg:space-x-0 rtl:space-x-reverse">
-            {{-- Dark Mode Button --}}
+            <!-- Dark Mode Button -->
             <button id="theme-toggle" type="button"
                 class="mx-3 text-gray-900 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
                 <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
@@ -51,7 +37,7 @@
                 </svg>
             </button>
 
-            {{-- User Mode Button --}}
+            <!-- User Mode Button -->
             <button type="button"
                 class="flex text-sm bg-gray-800 rounded-full lg:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
@@ -64,7 +50,7 @@
                 id="user-dropdown">
                 <div class="px-4 py-3">
                     <span class="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                    <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                    <span class="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
                 </div>
                 <ul class="py-2" aria-labelledby="user-menu-button">
                     <li>
@@ -86,6 +72,30 @@
                     </li>
                 </ul>
             </div>
+        </div>
+
+        <!-- Navigation link nya zal -->
+        {{-- tutor pake navlink aktive laravel --->>> --}}
+        {{-- {{ request()->is('isi nama dari routenya yang ada di web.php') ? 'ini si style nya mau gimana pas navigasi nya aktif' : '' }} --}}
+        {{-- Contoh :{{ request()->is('home') ? 'text-blue font-bold' : '' }}  --}}
+        <div class="items-start whitespace-nowrap dark:text-white font-bold justify-between hidden w-full mt-1 mx-2 lg:flex lg:flex-auto lg:ml-10 lg:w-auto md:order-1"
+            id="navbar-user">
+            <ul
+                class="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:space-x-8 rtl:space-x-reverse lg:flex-row lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
+                <li>
+                    <a href="/"
+                        class="block py-2 px-3 text-center rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-blue-700 lg:p-0 lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700
+                        {{ request()->is('/') ? ' lg:text-blue-600 font-bold bg-blue-700 rounded lg:bg-transparent' : '' }}"
+                        aria-current="page">Home</a>
+                </li>
+                <li>
+                    <a href="/materi"
+                        class="block py-2 px-3 whitespace-nowrap text-center rounded hover:bg-gray-100 lg:hover:bg-transparent lg:hover:text-blue-700 lg:p-0 lg:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700
+                    {{ request()->is('materi') ? ' lg:text-blue-600 font-bold bg-blue-700 rounded lg:bg-transparent' : '' }}"
+                        aria-current="page">
+                        Materi</a>
+                </li>
+            </ul>
         </div>
     </div>
 </nav>
