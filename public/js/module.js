@@ -3,12 +3,10 @@ let phase = 1;
 let countdownInterval;
 
 function onYouTubeIframeAPIReady() {
-    const videoUrl = "https://www.youtube.com/watch?v=F1QRZki3zb8"; // Replace with your YouTube video URL
+    const videoUrl = "https://www.youtube.com/watch?v=HPOcLm0fMws"; // Replace with your YouTube video URL
     const videoId = getYouTubeId(videoUrl);
 
     videoPlayer = new YT.Player("player", {
-        height: "360",
-        width: "640",
         videoId: videoId,
         events: {
             onReady: onPlayerReady,

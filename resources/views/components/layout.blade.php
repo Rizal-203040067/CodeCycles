@@ -30,8 +30,6 @@
 
     <x-footer></x-footer>
 
-    <script src="/js/module.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
     <script src="/js/script.js"></script>
 </body>
 
