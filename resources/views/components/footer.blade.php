@@ -1,6 +1,5 @@
-<footer class="bg-white inset-x-0 bottom-0 dark:bg-gray-900">
-    <div class="w-full max-w-screen-xl mx-auto md:py-4">
-        <span class="block text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 CodeCycles™. All Rights
-            Reserved.</span>
+<footer class="bg-orange-500 dark:bg-gray-900 border border-gray-200 sm:mx-auto dark:border-gray-700">
+    <div class="w-full md:py-4">
+        <span class="block text-sm text-white sm:text-center">© 2023 CodeCycles™. All Rights Reserved.</span>
     </div>
 </footer>
