@@ -1,10 +1,11 @@
 <x-layout>
-    <div class="w-full max-w-screen-xl flex flex-col items-center justify-between mx-auto lg:flex-row">
+    <div class="w-full max-w-screen-xl flex flex-wrap flex-col items-center justify-between mx-auto md:flex-row px-6">
         {{-- Video Utama --}}
-        <div class="m-6">
-            <h1 class="text-lg font-bold text-gray-900 lg:text-3xl mb-2">Laravel 11</h1>
+        <div class="">
+            <!-- Mengambil judul video dari database -->
+            <h1 class="text-lg font-bold text-gray-900 md:text-3xl mb-2 dark:text-blue-500">{{ $video->title }}</h1>
             <div class="">
-                <div id="player" class="h-96 w-full aspect-video"></div>
+                <div id="player" class="h-48 w-full aspect-video md:h-96"></div>
                 <p>Video Duration: <span id="duration"></span></p>
                 <p>Current Playtime: <span id="playtime"></span></p>
                 <p>Phase Timer: <span id="timer"></span></p>
@@ -34,94 +35,34 @@
         </div>
 
         {{-- Daftar Video --}}
-        <aside class="w-full mx-2 mt-3 border border-3 lg:w-max lg:mx-10">
-            <h2 class="text-2xl font-bold m-4">Daftar Video</h2>
-            <ul class="my-2 flex flex-row space-y-2 overflow-y-scroll lg:flex-col lg:h-96">
-                <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md">
-                    <div class="w-1/4">
-                        <img src="https://img.youtube.com/vi/videoid2/mqdefault.jpg" alt="Thumbnail"
-                            class="w-full rounded-md">
-                    </div>
-                    <div class="w-3/4">
-                        <h3 class="text-lg font-bold">Lorem ipsum dolor sit.</h3>
-                        <p class="text-sm text-gray-400">7:54</p>
-                    </div>
-                </li>
-                <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md">
-                    <div class="w-1/4">
-                        <img src="https://img.youtube.com/vi/videoid2/mqdefault.jpg" alt="Thumbnail"
-                            class="w-full rounded-md">
-                    </div>
-                    <div class="w-3/4">
-                        <h3 class="text-lg font-bold">Lorem ipsum dolor sit amet consectetur.</h3>
-                        <p class="text-sm text-gray-400">9:52</p>
-                    </div>
-                </li>
-                <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md">
-                    <div class="w-1/4">
-                        <img src="https://img.youtube.com/vi/videoid2/mqdefault.jpg" alt="Thumbnail"
-                            class="w-full rounded-md">
-                    </div>
-                    <div class="w-3/4">
-                        <h3 class="text-lg font-bold">Lorem ipsum dolor sit amet consectetur.</h3>
-                        <p class="text-sm text-gray-400">9:52</p>
-                    </div>
-                </li>
-                <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md">
-                    <div class="w-1/4">
-                        <img src="https://img.youtube.com/vi/videoid2/mqdefault.jpg" alt="Thumbnail"
-                            class="w-full rounded-md">
-                    </div>
-                    <div class="w-3/4">
-                        <h3 class="text-lg font-bold">Lorem ipsum dolor sit amet consectetur.</h3>
-                        <p class="text-sm text-gray-400">9:52</p>
-                    </div>
-                </li>
-                <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md">
-                    <div class="w-1/4">
-                        <img src="https://img.youtube.com/vi/videoid2/mqdefault.jpg" alt="Thumbnail"
-                            class="w-full rounded-md">
-                    </div>
-                    <div class="w-3/4">
-                        <h3 class="text-lg font-bold">Lorem ipsum dolor sit amet consectetur.</h3>
-                        <p class="text-sm text-gray-400">9:52</p>
-                    </div>
-                </li>
-                <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md">
-                    <div class="w-1/4">
-                        <img src="https://img.youtube.com/vi/videoid2/mqdefault.jpg" alt="Thumbnail"
-                            class="w-full rounded-md">
-                    </div>
-                    <div class="w-3/4">
-                        <h3 class="text-lg font-bold">Lorem ipsum dolor sit amet consectetur.</h3>
-                        <p class="text-sm text-gray-400">9:52</p>
-                    </div>
-                </li>
-                <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md">
-                    <div class="w-1/4">
-                        <img src="https://img.youtube.com/vi/videoid2/mqdefault.jpg" alt="Thumbnail"
-                            class="w-full rounded-md">
-                    </div>
-                    <div class="w-3/4">
-                        <h3 class="text-lg font-bold">Lorem ipsum dolor sit amet consectetur.</h3>
-                        <p class="text-sm text-gray-400">9:52</p>
-                    </div>
-                </li>
-                <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md">
-                    <div class="w-1/4">
-                        <img src="https://img.youtube.com/vi/videoid2/mqdefault.jpg" alt="Thumbnail"
-                            class="w-full rounded-md">
-                    </div>
-                    <div class="w-3/4">
-                        <h3 class="text-lg font-bold">Lorem ipsum dolor sit amet consectetur.</h3>
-                        <p class="text-sm text-gray-400">9:52</p>
-                    </div>
-                </li>
-                <!-- Tambahkan lebih banyak item video sesuai kebutuhan -->
+        <aside class="mt-3 border border-3 rounded-lg dark:border-blue-500">
+            <h2 class="text-2xl font-bold m-4 dark:text-blue-500">Daftar Video</h2>
+            <ul class="my-2 h-36 flex flex-row space-y-2 overflow-y-scroll md:flex-col md:h-96">
+                <!-- Loop melalui semua video dari database dan tampilkan -->
+                @foreach ($videos as $videoItem)
+                    <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md dark:border-blue-500">
+                        <div class="w-1/4 bg-green-600">
+                            <div id="thumbnail-{{ $videoItem->id }}" class="w-24">
+                                <img src="https://img.youtube.com/vi/{{ $videoItem->keyvideo }}/0.jpg"
+                                    alt="Thumbnail" />
+                            </div>
+                        </div>
+                        <div class="w-3/4 text-white">
+                            <h3 class="text-sm md:text-xl font-normal md:font-bold">{{ $videoItem->title }}</h3>
+                            <p class="text-sm text-gray-400">Durasi: 7:54</p>
+                            <a href="{{ url('/belajar', $videoItem->id) }}" class="text-blue-500">Lihat Video</a>
+                        </div>
+                    </li>
+                @endforeach
             </ul>
         </aside>
     </div>
 
-    <script src="/js/module.js"></script>
+    <!-- Script untuk mengambil keyvideo dari Blade -->
+    <script>
+        const keyvideo = "{{ $video->keyvideo }}";
+        const videoUrl = "https://www.youtube.com/watch?v=" + keyvideo;
+    </script>
+    <script src="{{ asset('js/module.js') }}"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </x-layout>

@@ -20,10 +20,10 @@
         </article>
     </section>
 
-    <section class="bg-orange-500 w-full p-8">
+    <section class="bg-orange-500 w-full p-8 dark:bg-gray-900">
         <article class="max-w-screen-xl flex items-center gap-8 justify-between mx-auto p-4">
             <div>
-                <h2 class="text-pretty text-3xl font-bold text-white dark:text-white">Lorem ipsum dolor sit amet,
+                <h2 class="text-pretty text-3xl font-bold text-white">Lorem ipsum dolor sit amet,
                     consectetur adipisicing elit. Dolorum nisi commodi debitis, aspernatur ea repellat facilis ad
                     molestiae? Pariatur adipisci error sint quidem dignissimos?</h2>
             </div>

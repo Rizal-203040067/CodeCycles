@@ -3,7 +3,7 @@ let phase = 1;
 let countdownInterval;
 
 function onYouTubeIframeAPIReady() {
-    const videoUrl = "https://www.youtube.com/watch?v=HPOcLm0fMws"; // Replace with your YouTube video URL
+    const videoUrl = "https://www.youtube.com/watch?v=" + keyvideo; // Replace with your YouTube video URL
     const videoId = getYouTubeId(videoUrl);
 
     videoPlayer = new YT.Player("player", {
@@ -166,41 +166,24 @@ function showPopup(message) {
     const popupMessage = document.getElementById("popupMessage");
     popupMessage.textContent = message;
     popup.style.display = "block";
-    videoPlayer.pauseVideo(); // Pause video when popup is shown
-
-    // Change background color when popup is shown
-    if (phase === 2) {
-        document.body.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-    }
 }
 
 function hidePopup() {
     const popup = document.getElementById("popup");
     popup.style.display = "none";
-    startScenario(); // Start next phase when the popup is closed
+}
 
-    // Reset background color when popup is closed
-    if (phase === 2) {
-        document.body.style.backgroundColor = "#fff";
-    }
+function getYouTubeId(url) {
+    const regex =
+        /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+    const matches = url.match(regex);
+    return matches ? matches[1] : null;
 }
 
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
+    const remainingSeconds = Math.floor(seconds % 60);
     return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
         .toString()
         .padStart(2, "0")}`;
-}
-
-function getYouTubeId(url) {
-    const regExp =
-        /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-    const match = url.match(regExp);
-
-    if (match && match[2].length === 11) {
-        return match[2];
-    } else {
-        return "error";
-    }
 }
