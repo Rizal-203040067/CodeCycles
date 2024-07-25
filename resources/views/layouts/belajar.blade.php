@@ -1,5 +1,6 @@
 <x-layout>
-    <div class="w-full max-w-screen-xl flex flex-wrap flex-col items-center justify-between mx-auto md:flex-row px-6">
+    <div
+        class="w-full mt-6 max-w-screen-xl flex flex-wrap flex-col items-center justify-between mx-auto md:flex-row px-6">
         {{-- Video Utama --}}
         <div class="">
             <!-- Mengambil judul video dari database -->
@@ -35,9 +36,11 @@
         </div>
 
         {{-- Daftar Video --}}
-        <aside class="mt-3 border border-3 rounded-lg dark:border-blue-500">
+        {{-- Terdapat class w-96 sebagai aturan panjang sementara --}}
+        <aside class="mt-3 w-96 border border-3 rounded-lg dark:border-blue-500">
             <h2 class="text-2xl font-bold m-4 dark:text-blue-500">Daftar Video</h2>
-            <ul class="my-2 h-36 flex flex-row space-y-2 overflow-y-scroll md:flex-col md:h-96">
+            <ul
+                class="my-2 h-36 flex flex-row space-y-2 overflow-x-scroll overflow-y-hidden md:overflow-y-scroll md:overflow-x-hidden md:flex-col md:w-full md:h-96">
                 <!-- Loop melalui semua video dari database dan tampilkan -->
                 @foreach ($videos as $videoItem)
                     <li class="border mx-2 flex items-center space-x-4 p-2 rounded-md dark:border-blue-500">
