@@ -5,9 +5,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>CodeCycles</title>
+    <meta name="application-name" content="{{ config('app.name') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
+    <title>{{ config('app.name') }}</title>
     <link rel="stylesheet" href="/css/style.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @filamentStyles
     @livewireStyles
 
     {{-- Dark Mode --}}
@@ -22,7 +33,7 @@
     </script>
 </head>
 
-<body class="bg-white dark:bg-gray-800">
+<body class="antialiased bg-white dark:bg-gray-800">
     <div id="rest" hidden></div>
 
     <x-navbar></x-navbar>
@@ -36,6 +47,8 @@
     <x-footer></x-footer>
 
     @livewireScripts
+    @filamentScripts
+    @vite('resources/js/app.js')
     <script src="/js/script.js"></script>
 </body>
 
