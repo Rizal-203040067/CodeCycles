@@ -166,11 +166,24 @@ function showPopup(message) {
     const popupMessage = document.getElementById("popupMessage");
     popupMessage.textContent = message;
     popup.style.display = "block";
+    videoPlayer.pauseVideo(); // Pause video when popup is shown
+
+    // Change background color when popup is shown
+    if (phase === 2) {
+        document.getElementById("rest").hidden = false;
+    }
 }
 
 function hidePopup() {
     const popup = document.getElementById("popup");
     popup.style.display = "none";
+    startScenario(); // Start next phase when the popup is closed
+
+    // Reset background color when popup is closed
+    if (phase === 2) {
+        // document.body.style.backgroundColor = "#fff";
+        document.getElementById("rest").hidden = true;
+    }
 }
 
 function getYouTubeId(url) {
