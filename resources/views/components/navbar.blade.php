@@ -1,3 +1,4 @@
+<!-- resources/views/components/navbar.blade.php -->
 <nav class="bg-orange-500 border-b border-gray-200 dark:bg-gray-900 dark:border-gray-700">
     <div class="w-full max-w-screen-xl flex flex-wrap items-center justify-between mx-auto py-3 px-6">
         <div class="flex items-center gap-2">
@@ -37,41 +38,58 @@
                 </svg>
             </button>
 
-            {{-- User tanpa akun --}}
-            <button type="button"
-                class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-                data-dropdown-placement="bottom">
-                <span class="sr-only">Open user menu</span>
-                <a href="/admin/login">
-                    <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo">
-                </a>
-            </button>
-
-            {{-- User dengan akun --}}
-            {{-- <!-- User Mode Button -->
-            <button type="button"
-                class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
-                data-dropdown-placement="bottom">
-                <span class="sr-only">Open user menu</span>
-                <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo">
-            </button>
-            <!-- Dropdown menu -->
-            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-                id="user-dropdown">
-                <div class="px-4 py-3">
-                    <span class="block text-sm  text-white">Bonnie Green</span>
-                    <span class="block text-sm text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+            @auth('mahasiswa')
+                <!-- User Mode Button -->
+                <button type="button"
+                    class="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                    data-dropdown-placement="bottom">
+                    <span class="sr-only">Open user menu</span>
+                    <img class="w-8 h-8 rounded-full"
+                        src="{{ Auth::guard('mahasiswa')->user()->profile_photo_url ?? '/docs/images/people/profile-picture-3.jpg' }}"
+                        alt="user photo">
+                </button>
+                <!-- Dropdown menu -->
+                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                    id="user-dropdown">
+                    <div class="px-4 py-3">
+                        <span class="block text-sm text-white">{{ Auth::guard('mahasiswa')->user()->name }}</span>
+                        <span
+                            class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ Auth::guard('mahasiswa')->user()->email }}</span>
+                    </div>
+                    <ul class="py-2" aria-labelledby="user-menu-button">
+                        <li>
+                            <form method="POST" action="{{ route('mahasiswa.logout') }}">
+                                @csrf
+                                <a href="{{ route('mahasiswa.logout') }}"
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                    onclick="event.preventDefault(); this.closest('form').submit();">
+                                    Sign out
+                                </a>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
-                <ul class="py-2" aria-labelledby="user-menu-button">
-                    <li>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
-                            out</a>
-                    </li>
-                </ul>
-            </div> --}}
+            @else
+                <!-- User Mode Button -->
+                <button type="button"
+                    class="flex p-1 text-sm border text-white bg-transparent border-white dark:text-blue-500 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                    data-dropdown-placement="bottom">
+                    <span class="sr-only">Open user menu</span>
+                    <x-heroicon-o-user class="h-7 rounded-full" />
+                </button>
+                <!-- Dropdown menu -->
+                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                    id="user-dropdown">
+                    <div class="px-4 py-3 space-y-2 rounded-lg">
+                        <a href="/admin/login"
+                            class="block border border-transparent p-1 text-sm rounded-lg text-gray-500 truncate dark:text-gray-400 hover:border-gray-400">Dosen</a>
+                        <a href="{{ route('mahasiswa.login') }}"
+                            class="block border border-transparent p-1 text-sm rounded-lg text-gray-500 truncate dark:text-gray-400 hover:border-gray-400">Mahasiswa</a>
+                    </div>
+                </div>
+            @endauth
         </div>
 
         <div class="items-start whitespace-nowrap text-white font-bold justify-between hidden w-full mt-1 mx-2 md:flex md:flex-auto md:ml-10 md:w-auto md:order-1"

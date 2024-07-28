@@ -10,6 +10,23 @@ use App\Http\Controllers\VideoController;
 Route::get('/belajar', [VideoController::class, 'index']);
 Route::get('/belajar/{id}', [VideoController::class, 'show']);
 
+// Default
+use App\Http\Controllers\MahasiswaAuthController;
+
+// routes/web.php
+Route::group(['prefix' => 'mahasiswa'], function () {
+    Route::get('/login', [MahasiswaAuthController::class, 'showLoginForm'])->name('mahasiswa.login');
+    Route::post('/login', [MahasiswaAuthController::class, 'login']);
+    Route::post('/logout', [MahasiswaAuthController::class, 'logout'])->name('mahasiswa.logout');
+});
+
+// Optional: Add a protected route for mahasiswa dashboard
+// Route::middleware('auth:mahasiswa')->group(function () {
+//     Route::get('/dashboard-mahasiswa', function () {
+//         return view('mahasiswa.dashboard'); // Buat atau sesuaikan view ini
+//     });
+// });
+
 Route::get('/', function () {
     return view('layouts.app');
 });
