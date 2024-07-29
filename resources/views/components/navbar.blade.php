@@ -97,8 +97,10 @@
             <ul
                 class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-orange-500 md:space-x-4 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-orange-500 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
-                <x-nav-link href="/belajar" :active="request()->is('belajar')">Belajar</x-nav-link>
+                {{-- <x-nav-link href="/belajar" :active="request()->is('belajar')">Belajar</x-nav-link> --}}
+                <x-nav-link href="/belajars" :active="request()->is('belajars')">Belajar</x-nav-link>
                 <x-nav-link href="/tester" :active="request()->is('tester')">Tester</x-nav-link>
+                {{-- <a href="{{ route('categories') }}" class="text-xl text-blue-500 hover:underline">Pilih Kategori</a> --}}
             </ul>
         </div>
     </div>

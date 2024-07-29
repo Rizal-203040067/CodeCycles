@@ -3,17 +3,32 @@
 use App\Livewire\Counter;
 use App\View\Components\Nocounter;
 use Illuminate\Support\Facades\Route;
-
-// Testes Filament
+use App\Http\Controllers\BelajarController;
 use App\Http\Controllers\VideoController;
 
-Route::get('/belajar', [VideoController::class, 'index']);
-Route::get('/belajar/{id}', [VideoController::class, 'show']);
+// Test
+Route::get('/belajars', [BelajarController::class, 'showCategories'])->name('categories');
+Route::get('/belajars/{category}/{video?}', [BelajarController::class, 'showVideosByCategory'])->name('category.videos');
+Route::get('/belajar/{video?}', [BelajarController::class, 'listAllVideos'])->name('belajar');
+Route::get('/videos/{id}', [BelajarController::class, 'showVideoById'])->name('videos.show');
 
-// Default
+
+// Testes Filament
+// Route::get('/belajar', [VideoController::class, 'index']);
+// Route::get('/belajar/{id}', [VideoController::class, 'show']);
+
+// Halaman Kategori
+// Route::get('/categories', [BelajarController::class, 'showCategories'])->name('categories');
+// Route::get('/categories/{category}', [BelajarController::class, 'showVideosByCategory'])->name('category.videos');
+// Route::get('/belajar/{video?}', [BelajarController::class, 'index'])->name('belajar');
+
+
+// Halaman Belajar
+// Route::get('/belajar/{video?}', [BelajarController::class, 'index'])->name('belajar');
+
+// Halaman Mahasiswa
 use App\Http\Controllers\MahasiswaAuthController;
 
-// routes/web.php
 Route::group(['prefix' => 'mahasiswa'], function () {
     Route::get('/login', [MahasiswaAuthController::class, 'showLoginForm'])->name('mahasiswa.login');
     Route::post('/login', [MahasiswaAuthController::class, 'login']);
@@ -27,6 +42,7 @@ Route::group(['prefix' => 'mahasiswa'], function () {
 //     });
 // });
 
+// Halaman Default
 Route::get('/', function () {
     return view('layouts.app');
 });
@@ -35,9 +51,9 @@ Route::get('/', function () {
 //     return view('layouts.belajar');
 // });
 
-Route::get('/belajars', function () {
-    return view('layouts.belajars');
-});
+// Route::get('/belajars', function () {
+//     return view('layouts.belajars');
+// });
 
 Route::get('/materi', function () {
     return view('layouts.materi');
@@ -50,12 +66,3 @@ Route::get('/login', function () {
 Route::get('/tester', function () {
     return view('layouts.tester');
 });
-
-// Liveware
-Route::get('/nocounter', Nocounter::class);
- 
-Route::get('/counter', Counter::class);
-
-// Route::get('/', function () {
-//     return view('home', ['title' => 'Home Page']);
-// });

@@ -9,8 +9,10 @@ class Video extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'keyvideo',
-    ];
+    protected $fillable = ['title', 'keyvideo', 'category_id'];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }
