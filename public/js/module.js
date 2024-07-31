@@ -1,4 +1,6 @@
 let videoPlayer;
+let phase = 1;
+let countdownInterval;
 let playtimeInterval;
 let duration;
 
