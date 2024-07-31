@@ -11,6 +11,14 @@ class Video extends Model
 
     protected $fillable = ['title', 'keyvideo', 'category_id'];
 
+    // Relasi many-to-many dengan Mahasiswa
+    public function mahasiswas()
+    {
+        return $this->belongsToMany(Mahasiswa::class, 'mahasiswa_video')->withPivot('watched_seconds');
+    }
+
+
+    // Relasi dengan Category
     public function category()
     {
         return $this->belongsTo(Category::class);

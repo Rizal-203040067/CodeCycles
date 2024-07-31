@@ -1,9 +1,9 @@
 let videoPlayer;
-let phase = 1;
-let countdownInterval;
+let playtimeInterval;
+let duration;
 
 function onYouTubeIframeAPIReady() {
-    const videoUrl = "https://www.youtube.com/watch?v=" + keyvideo; // Replace with your YouTube video URL
+    const videoUrl = "https://www.youtube.com/watch?v=" + keyvideo;
     const videoId = getYouTubeId(videoUrl);
 
     videoPlayer = new YT.Player("player", {
@@ -17,13 +17,12 @@ function onYouTubeIframeAPIReady() {
 
 function onPlayerReady(event) {
     const player = event.target;
-    const duration = player.getDuration();
+    duration = player.getDuration();
     const formattedDuration = formatTime(duration);
 
     document.getElementById("duration").textContent = formattedDuration;
 }
 
-let playtimeInterval;
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
         startPlaytimeTracker();
@@ -40,6 +39,12 @@ function startPlaytimeTracker() {
         const currentTime = videoPlayer.getCurrentTime();
         const formattedPlaytime = formatTime(currentTime);
         document.getElementById("playtime").textContent = formattedPlaytime;
+
+        // Menghitung dan menampilkan progress video
+        const progress = (currentTime / duration) * 100;
+        document.getElementById("progress").textContent = `${progress.toFixed(
+            2
+        )}%`;
     }, 1000); // Update every second
 }
 
