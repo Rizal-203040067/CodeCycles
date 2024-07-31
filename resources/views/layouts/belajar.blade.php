@@ -12,11 +12,33 @@
                     <p>Progress: <span id="progress">0%</span></p>
                     <p>Phase Timer: <span id="timer"></span></p>
                 </div>
-                <!-- Other elements and script imports... -->
+
+                <!-- Popup for messages -->
+                <div class="popup" id="popup">
+                    <p id="popupMessage"></p>
+                    <button onclick="hidePopup()">Close</button>
+                </div>
+
+                <!-- Button untuk menampilkan popup untuk mengatur waktu timer awal -->
+                <div class="settimer">
+                    <button onclick="showTimerPopup()">Set Initial Timer</button>
+                </div>
+
+                <!-- Popup untuk mengatur waktu timer awal -->
+                <div class="popup" id="timerPopup">
+                    <input type="text" id="initialTimerInput" placeholder="Masukkan waktu timer awal (detik)" />
+                    <button onclick="setInitialTimer()">Set Timer</button>
+                </div>
+
+                <!-- Popup "Start Scenario" -->
+                <div class="popup" id="startScenarioPopup">
+                    <button onclick="startScenario()">Start Scenario</button>
+                </div>
             @else
                 <p class="text-lg font-bold text-gray-900 md:text-3xl mb-2 dark:text-blue-500">No video available.</p>
             @endif
         </div>
+
 
         {{-- Daftar Video Berdasarkan Kategori --}}
         <aside class="mt-3 w-96 border border-3 rounded-lg dark:border-blue-500">
