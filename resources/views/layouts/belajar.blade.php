@@ -34,6 +34,8 @@
                 <div class="popup" id="startScenarioPopup">
                     <button onclick="startScenario()">Start Scenario</button>
                 </div>
+
+                <p>Elapsed Time: <span id="elapsedTime">00:00</span></p>
             @else
                 <p class="text-lg font-bold text-gray-900 md:text-3xl mb-2 dark:text-blue-500">No video available.</p>
             @endif

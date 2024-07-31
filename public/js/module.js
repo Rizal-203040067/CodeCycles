@@ -3,6 +3,10 @@ let phase = 1;
 let countdownInterval;
 let playtimeInterval;
 let duration;
+let timerInterval;
+let startTime;
+let elapsedTime = 0; // in seconds
+let isTimerRunning = false;
 
 function onYouTubeIframeAPIReady() {
     const videoUrl = "https://www.youtube.com/watch?v=" + keyvideo;
@@ -28,6 +32,9 @@ function onPlayerReady(event) {
 function onPlayerStateChange(event) {
     if (event.data === YT.PlayerState.PLAYING) {
         startPlaytimeTracker();
+        if (!isTimerRunning) {
+            startTimer(); // Start the timer when the video starts playing for the first time
+        }
     } else if (
         event.data === YT.PlayerState.PAUSED ||
         event.data === YT.PlayerState.ENDED
@@ -42,16 +49,70 @@ function startPlaytimeTracker() {
         const formattedPlaytime = formatTime(currentTime);
         document.getElementById("playtime").textContent = formattedPlaytime;
 
-        // Menghitung dan menampilkan progress video
-        const progress = (currentTime / duration) * 100;
+        // Menghitung progress berdasarkan elapsedTime
+        const progress = (elapsedTime / duration) * 100;
         document.getElementById("progress").textContent = `${progress.toFixed(
             2
         )}%`;
+
+        // Tampilkan popup jika progress mencapai 100%
+        if (progress >= 110) {
+            showPopup("Silahkan lanjut ke video berikutnya");
+            stopTimer(); // Hentikan timer ketika progress mencapai 100%
+        }
     }, 1000); // Update every second
 }
 
 function stopPlaytimeTracker() {
     clearInterval(playtimeInterval);
+}
+
+function startTimer() {
+    startTime = new Date();
+    isTimerRunning = true;
+    timerInterval = setInterval(function () {
+        elapsedTime++;
+        document.getElementById("elapsedTime").textContent =
+            formatTime(elapsedTime);
+    }, 1000); // Update every second
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+    isTimerRunning = false;
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
+        .toString()
+        .padStart(2, "0")}`;
+}
+
+function showPopup(message) {
+    const popup = document.getElementById("popup");
+    const popupMessage = document.getElementById("popupMessage");
+    popupMessage.textContent = message;
+    popup.style.display = "block";
+    videoPlayer.pauseVideo(); // Pause video when popup is shown
+
+    // Change background color when popup is shown
+    if (phase === 2) {
+        document.getElementById("rest").hidden = false;
+    }
+}
+
+function hidePopup() {
+    const popup = document.getElementById("popup");
+    popup.style.display = "none";
+    startScenario(); // Start next phase when the popup is closed
+
+    // Reset background color when popup is closed
+    if (phase === 2) {
+        // document.body.style.backgroundColor = "#fff";
+        document.getElementById("rest").hidden = true;
+    }
 }
 
 // Fungsi untuk memulai skenario dan countdown dengan menggunakan waktu awal yang disetel
