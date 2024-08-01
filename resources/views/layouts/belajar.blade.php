@@ -7,11 +7,24 @@
                 <h1 class="text-lg font-bold text-gray-900 md:text-3xl mb-2 dark:text-blue-500">{{ $video->title }}</h1>
                 <div class="">
                     <div id="player" class="h-48 w-full aspect-video md:h-96"></div>
-                    <p>Video Duration: <span id="duration"></span></p>
-                    <p>Current Playtime: <span id="playtime"></span></p>
-                    <p>Progress: <span id="progress">0%</span></p>
-                    <p>Phase Timer: <span id="timer"></span></p>
+                    {{-- bagian di bawah video player belajar.blade.php --}}
+                    <div class="relative h-full">
+                        <!-- Background -->
+                        <div class="absolute inset-0 bg-blue-500 opacity-40"></div>
+                        <!-- Text Layer -->
+                        <div class="relative z-10 text-white flex flex-col space-y-2 p-4">
+                            <p>Video Duration: <span id="duration"></span></p>
+                            <div id="videoStatus">
+                                <p id="completionStatus">Status video: </p>
+                            </div>
+                            <p>Current Playtime: <span id="playtime"></span></p>
+                            <p>Progress: <span id="progress">0%</span></p>
+                            <p>Phase Timer: <span id="timer"></span></p>
+                        </div>
+                    </div>
                 </div>
+
+
 
                 <!-- Popup for messages -->
                 <div class="popup" id="popup">

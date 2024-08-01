@@ -99,7 +99,7 @@
                 <x-nav-link href="/" :active="request()->is('/')">Home</x-nav-link>
                 {{-- <x-nav-link href="/belajar" :active="request()->is('belajar')">Belajar</x-nav-link> --}}
                 <x-nav-link href="/belajars" :active="request()->is('belajars')">Belajar</x-nav-link>
-                <x-nav-link href="/tester" :active="request()->is('tester')">Tester</x-nav-link>
+                {{-- <x-nav-link href="/tester" :active="request()->is('tester')">Tester</x-nav-link> --}}
                 {{-- <a href="{{ route('categories') }}" class="text-xl text-blue-500 hover:underline">Pilih Kategori</a> --}}
             </ul>
         </div>

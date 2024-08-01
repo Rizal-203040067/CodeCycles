@@ -6,7 +6,7 @@ let playtimeInterval;
 let duration;
 let elapsedTime = 0; // in seconds
 let isTimerRunning = false;
-const PROGRESS_KEY = "videoProgress_" + keyvideo; // Unique key for this video
+const PROGRESS_KEY = 'videoProgress_' + keyvideo; // Unique key for this video
 let lastSavedProgress = 0; // Keep track of the last saved progress
 
 function onYouTubeIframeAPIReady() {
@@ -70,9 +70,7 @@ function startPlaytimeTracker() {
 
         // Menghitung progress dengan toleransi 1 detik
         const progress = ((lastSavedProgress + 1) / duration) * 100;
-        document.getElementById("progress").textContent = `${progress.toFixed(
-            2
-        )}%`;
+        document.getElementById("progress").textContent = `${progress.toFixed(2)}%`;
 
         // Tampilkan popup jika progress mencapai 100%
         if (progress >= 100) {
@@ -83,6 +81,7 @@ function startPlaytimeTracker() {
         }
     }, 1000); // Update every second
 }
+
 
 function stopPlaytimeTracker() {
     clearInterval(playtimeInterval);
@@ -167,15 +166,13 @@ function continueToNextPhase() {
 }
 
 function checkVideoCompletion() {
-    const videoCompleted = localStorage.getItem("videoCompleted_" + keyvideo);
-    if (videoCompleted === "true") {
-        document.getElementById("completionStatus").textContent =
-            "Video ini sudah 100% selesai!";
+    const videoCompleted = localStorage.getItem('videoCompleted_' + keyvideo);
+    if (videoCompleted === 'true') {
+        document.getElementById("completionStatus").textContent = "Video ini sudah 100% selesai!";
         // Atau tambahkan gaya CSS untuk menandai video sebagai selesai
         document.getElementById("videoStatus").classList.add("completed");
     } else {
-        document.getElementById("completionStatus").textContent =
-            "Video ini belum selesai.";
+        document.getElementById("completionStatus").textContent = "Video ini belum selesai.";
     }
 }
 
@@ -278,7 +275,8 @@ function formatTime(seconds) {
         .padStart(2, "0")}`;
 }
 
+
 // Fungsi video complite
 function markVideoAsCompleted() {
-    localStorage.setItem("videoCompleted_" + keyvideo, "true");
+    localStorage.setItem('videoCompleted_' + keyvideo, 'true');
 }

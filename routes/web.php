@@ -62,7 +62,3 @@ Route::get('/materi', function () {
 Route::get('/login', function () {
     return view('layouts.login');
 });
-
-Route::get('/tester', function () {
-    return view('layouts.tester');
-});
