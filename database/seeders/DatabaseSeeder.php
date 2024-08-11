@@ -18,7 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(MahasiswaSeeder::class);
         $this->call(CategorySeeder::class);
         $this->call(VideoSeeder::class);
-
+        $this->call(QuizSeeder::class);
+        
 
         User::factory()->create([
             'name' => 'Admin',

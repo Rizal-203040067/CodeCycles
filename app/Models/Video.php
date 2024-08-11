@@ -17,10 +17,14 @@ class Video extends Model
         return $this->belongsToMany(Mahasiswa::class, 'mahasiswa_video')->withPivot('watched_seconds');
     }
 
-
     // Relasi dengan Category
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function quizzes()
+    {
+        return $this->hasMany(Quiz::class);
     }
 }

@@ -7,6 +7,7 @@ let duration;
 let elapsedTime = 0; // in seconds
 let isTimerRunning = false;
 const PROGRESS_KEY = "videoProgress_" + keyvideo; // Unique key for this video
+const videoCompleted = localStorage.getItem("videoCompleted_" + keyvideo);
 let lastSavedProgress = 0; // Keep track of the last saved progress
 
 function onYouTubeIframeAPIReady() {
@@ -103,10 +104,6 @@ function stopTimer() {
     isTimerRunning = false;
 }
 
-function saveProgress(currentTime) {
-    localStorage.setItem(PROGRESS_KEY, currentTime);
-}
-
 function formatTime(seconds) {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.floor(seconds % 60);
@@ -131,27 +128,33 @@ function showPopup(message) {
 function hidePopup() {
     const popup = document.getElementById("popup");
     popup.style.display = "none";
-    startScenario(); // Start next phase when the popup is closed
 
     // Reset background color when popup is closed
-    if (phase === 2) {
-        document.getElementById("rest").hidden = true;
+    if (videoCompleted === "true") {
+        showQuiz();
+    } else {
+        if (phase === 1) {
+            startScenario(); // Start next phase when the popup is closed
+        } else if (phase === 2) {
+            startScenario(); // Start next phase when the popup is closed
+            document.getElementById("rest").hidden = true;
+        }
     }
 }
 
 function startScenario() {
     const initialTimer = getInitialTimer(); // Dapatkan waktu timer awal dari cookie
 
-    if (initialTimer === 0) {
-        alert("Waktu timer awal tidak ditemukan!");
-        return;
-    }
-
     if (phase === 1) {
         phase = 2;
         videoPlayer.playVideo(); // Start the video
     } else if (phase === 2) {
         phase = 1;
+    }
+
+    if (initialTimer === 0) {
+        alert("Waktu timer awal tidak ditemukan!");
+        return;
     }
 
     // Mulai countdown dengan waktu awal yang disetel
@@ -167,26 +170,26 @@ function continueToNextPhase() {
 }
 
 function checkVideoCompletion() {
-    const videoCompleted = localStorage.getItem("videoCompleted_" + keyvideo);
     if (videoCompleted === "true") {
         document.getElementById("completionStatus").textContent =
-            "Video ini sudah 100% selesai!";
+            "Anda sudah menyelesaikan video ini!";
         // Atau tambahkan gaya CSS untuk menandai video sebagai selesai
         document.getElementById("videoStatus").classList.add("completed");
     } else {
         document.getElementById("completionStatus").textContent =
-            "Video ini belum selesai.";
+            "Ada belum menyelesaikan video ini!";
     }
 }
 
 window.onload = function () {
-    showStartScenarioPopup();
     checkVideoCompletion(); // Cek status completion saat halaman dimuat
+
+    if (videoCompleted === "true") {
+        showPopup("Silahkan Mengerjakan Quiz");
+    } else {
+        showStartScenarioPopup();
+    }
 };
-// // Tampilkan popup "Start Scenario" saat halaman dimuat
-// window.onload = function () {
-//     showStartScenarioPopup();
-// };
 
 function showStartScenarioPopup() {
     const startScenarioPopup = document.getElementById("startScenarioPopup");
@@ -256,7 +259,7 @@ function countdown() {
             if (phase === 2) {
                 showPopup("Lakukanlah istirahat selama 1 menit");
             } else {
-                showPopup("Istirahat sudah selesai, segera lanjutkan vidio");
+                showPopup("Istirahat sudah selesai, segera lanjutkan video");
             }
         }
         seconds--;
@@ -270,15 +273,51 @@ function getYouTubeId(url) {
     return matches ? matches[1] : null;
 }
 
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-        .toString()
-        .padStart(2, "0")}`;
+function showQuiz() {
+    document.getElementById("videoContainer").classList.add("hidden");
+    document.getElementById("quizContainer").classList.remove("hidden");
 }
 
-// Fungsi video complite
+function hideQuiz() {
+    document.getElementById("videoContainer").classList.remove("hidden");
+    document.getElementById("quizContainer").classList.add("hidden");
+}
+
 function markVideoAsCompleted() {
     localStorage.setItem("videoCompleted_" + keyvideo, "true");
+}
+
+const quizForm = document.getElementById("quizForm");
+if (quizForm) {
+    quizForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(quizForm);
+        let correctAnswers = 0;
+
+        for (let [questionId, answer] of formData.entries()) {
+            const correctAnswerElement = document.querySelector(
+                `input[name="${questionId}"][data-correct="true"]`
+            );
+
+            if (correctAnswerElement && correctAnswerElement.value === answer) {
+                correctAnswers++;
+            }
+        }
+
+        const resultText = `Anda mendapatkan ${correctAnswers} jawaban benar dari 5 pertanyaan!`;
+        alert(resultText);
+
+        hideQuiz();
+        showStartScenarioPopup();
+    });
+
+    const quizOptions = document.querySelectorAll("input[type='radio']");
+    quizOptions.forEach(function (option) {
+        const correctAnswer = option.dataset.correctAnswer;
+
+        if (correctAnswer && option.value === correctAnswer) {
+            option.setAttribute("data-correct", "true");
+        }
+    });
 }

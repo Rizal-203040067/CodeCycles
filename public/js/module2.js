@@ -6,7 +6,7 @@ let playtimeInterval;
 let duration;
 let elapsedTime = 0; // in seconds
 let isTimerRunning = false;
-const PROGRESS_KEY = 'videoProgress_' + keyvideo; // Unique key for this video
+const PROGRESS_KEY = "videoProgress_" + keyvideo; // Unique key for this video
 let lastSavedProgress = 0; // Keep track of the last saved progress
 
 function onYouTubeIframeAPIReady() {
@@ -50,60 +50,42 @@ function onPlayerStateChange(event) {
     ) {
         stopPlaytimeTracker();
     }
-}
 
-function saveProgress(currentTime) {
-    localStorage.setItem(PROGRESS_KEY, currentTime);
+    if (event.data === YT.PlayerState.ENDED) {
+        showPopup("Video telah selesai diputar.");
+        document.getElementById("completionStatus").textContent =
+            "Status video: Selesai";
+        markVideoAsCompleted();
+        showQuiz();
+    }
 }
 
 function startPlaytimeTracker() {
     playtimeInterval = setInterval(function () {
         const currentTime = videoPlayer.getCurrentTime();
-        const formattedPlaytime = formatTime(currentTime);
-        document.getElementById("playtime").textContent = formattedPlaytime;
+        const formattedCurrentTime = formatTime(currentTime);
+        const progress = (currentTime / duration) * 100;
 
-        // Update progress only if video is moving forward
-        if (currentTime > lastSavedProgress) {
+        document.getElementById("playtime").textContent = formattedCurrentTime;
+        document.getElementById("progress").textContent =
+            progress.toFixed(2) + "%";
+        elapsedTime = currentTime; // Update elapsed time
+
+        // Save progress to local storage every 5 seconds
+        if (currentTime - lastSavedProgress >= 5) {
+            localStorage.setItem(PROGRESS_KEY, currentTime);
             lastSavedProgress = currentTime;
-            saveProgress(currentTime);
         }
 
-        // Menghitung progress dengan toleransi 1 detik
-        const progress = ((lastSavedProgress + 1) / duration) * 100;
-        document.getElementById("progress").textContent = `${progress.toFixed(2)}%`;
-
-        // Tampilkan popup jika progress mencapai 100%
-        if (progress >= 100) {
-            markVideoAsCompleted(); // Menandai video sebagai selesai
-            showPopup("Silahkan lanjut ke video berikutnya");
-            stopTimer(); // Hentikan timer ketika progress mencapai 100%
-            clearInterval(playtimeInterval);
+        // Cek apakah video selesai
+        if (currentTime >= duration) {
+            markVideoAsCompleted(); // Panggil fungsi ketika video selesai
         }
-    }, 1000); // Update every second
+    }, 1000);
 }
-
 
 function stopPlaytimeTracker() {
     clearInterval(playtimeInterval);
-}
-
-function startTimer() {
-    startTime = new Date();
-    isTimerRunning = true;
-    timerInterval = setInterval(function () {
-        elapsedTime++;
-        document.getElementById("elapsedTime").textContent =
-            formatTime(elapsedTime);
-    }, 1000); // Update every second
-}
-
-function stopTimer() {
-    clearInterval(timerInterval);
-    isTimerRunning = false;
-}
-
-function saveProgress(currentTime) {
-    localStorage.setItem(PROGRESS_KEY, currentTime);
 }
 
 function formatTime(seconds) {
@@ -114,85 +96,59 @@ function formatTime(seconds) {
         .padStart(2, "0")}`;
 }
 
+function getYouTubeId(url) {
+    const regExp =
+        /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+    const match = url.match(regExp);
+    return match && match[7].length === 11 ? match[7] : null;
+}
+
+// Function to show a popup message
 function showPopup(message) {
     const popup = document.getElementById("popup");
     const popupMessage = document.getElementById("popupMessage");
     popupMessage.textContent = message;
     popup.style.display = "block";
-    videoPlayer.pauseVideo(); // Pause video when popup is shown
-
-    // Change background color when popup is shown
-    if (phase === 2) {
-        document.getElementById("rest").hidden = false;
-    }
 }
 
 function hidePopup() {
     const popup = document.getElementById("popup");
     popup.style.display = "none";
-    startScenario(); // Start next phase when the popup is closed
+}
 
-    // Reset background color when popup is closed
-    if (phase === 2) {
-        document.getElementById("rest").hidden = true;
-    }
+// Function to start the timer
+function startTimer() {
+    const phaseTimer = document.getElementById("timer");
+    let remainingTime = 5; // 2 minutes in seconds
+
+    isTimerRunning = true;
+
+    countdownInterval = setInterval(() => {
+        if (remainingTime > 0) {
+            remainingTime--;
+            phaseTimer.textContent = formatTime(remainingTime);
+        } else {
+            clearInterval(countdownInterval);
+            phase++;
+            startNextPhase();
+        }
+    }, 1000);
 }
 
 function startScenario() {
-    const initialTimer = getInitialTimer(); // Dapatkan waktu timer awal dari cookie
+    phase = 1;
+    startTimer();
+}
 
-    if (initialTimer === 0) {
-        alert("Waktu timer awal tidak ditemukan!");
-        return;
+function startNextPhase() {
+    switch (phase) {
+        case 1:
+            startPhase1();
+            break;
+        case 2:
+            startPhase2();
+            break;
     }
-
-    if (phase === 1) {
-        phase = 2;
-        videoPlayer.playVideo(); // Start the video
-    } else if (phase === 2) {
-        phase = 1;
-    }
-
-    // Mulai countdown dengan waktu awal yang disetel
-    countdown(initialTimer);
-
-    // Sembunyikan popup "Start Scenario" setelah diklik
-    hideStartScenarioPopup();
-}
-
-function continueToNextPhase() {
-    hidePopup();
-    isPopupClosed = true; // Set flag indicating popup was closed
-}
-
-function checkVideoCompletion() {
-    const videoCompleted = localStorage.getItem('videoCompleted_' + keyvideo);
-    if (videoCompleted === 'true') {
-        document.getElementById("completionStatus").textContent = "Video ini sudah 100% selesai!";
-        // Atau tambahkan gaya CSS untuk menandai video sebagai selesai
-        document.getElementById("videoStatus").classList.add("completed");
-    } else {
-        document.getElementById("completionStatus").textContent = "Video ini belum selesai.";
-    }
-}
-
-window.onload = function () {
-    showStartScenarioPopup();
-    checkVideoCompletion(); // Cek status completion saat halaman dimuat
-};
-// // Tampilkan popup "Start Scenario" saat halaman dimuat
-// window.onload = function () {
-//     showStartScenarioPopup();
-// };
-
-function showStartScenarioPopup() {
-    const startScenarioPopup = document.getElementById("startScenarioPopup");
-    startScenarioPopup.style.display = "block";
-}
-
-function hideStartScenarioPopup() {
-    const startScenarioPopup = document.getElementById("startScenarioPopup");
-    startScenarioPopup.style.display = "none";
 }
 
 function showTimerPopup() {
@@ -200,83 +156,59 @@ function showTimerPopup() {
     timerPopup.style.display = "block";
 }
 
-function hideTimerPopup() {
-    const timerPopup = document.getElementById("timerPopup");
-    timerPopup.style.display = "none";
-}
-
 function setInitialTimer() {
     const initialTimeInput = document.getElementById("initialTimerInput").value;
-    if (!initialTimeInput) {
-        alert("Masukkan waktu timer awal terlebih dahulu!");
-        return;
-    }
-
-    // Simpan waktu timer awal ke dalam cookie dengan nama "initialTimer"
-    document.cookie = `initialTimer=${initialTimeInput}; path=/`;
-
-    alert("Waktu timer awal berhasil disimpan!");
-    hideTimerPopup(); // Sembunyikan popup setelah waktu timer awal disimpan
+    const phaseTimer = document.getElementById("timer");
+    phaseTimer.textContent = formatTime(initialTimeInput);
+    hidePopup();
 }
 
-function getInitialTimer() {
-    const initialTimerCookie = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("initialTimer="));
-    if (!initialTimerCookie) {
-        return 0; // Return 0 jika cookie tidak ditemukan
-    }
-
-    return parseInt(initialTimerCookie.split("=")[1]);
+function startPhase1() {
+    showPopup("Phase 1: Watch the video carefully.");
+    setTimeout(() => {
+        hidePopup();
+        startTimer(); // Start timer for the next phase
+    }, 5000);
 }
 
-function countdown() {
-    const initialTimer = getInitialTimer();
-    if (initialTimer === 0) {
-        alert("Waktu timer awal tidak ditemukan!");
-        return;
-    }
+function startPhase2() {
+    showPopup("Phase 2: Pay attention to the details.");
+    setTimeout(() => {
+        hidePopup();
+        startTimer(); // Start timer for the next phase
+    }, 5000);
+}
 
-    let seconds = initialTimer;
+function showQuiz() {
+    const quizContainer = document.getElementById("quizContainer");
+    quizContainer.style.display = "block";
+}
 
-    clearInterval(countdownInterval);
-    countdownInterval = setInterval(function () {
-        const minutes = Math.floor(seconds / 60);
-        const remainingSeconds = seconds % 60;
-        const formattedTime = `${minutes
-            .toString()
-            .padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
-        document.getElementById("timer").textContent = formattedTime;
+function markVideoAsCompleted() {
+    const completionStatus = document.getElementById("completionStatus");
+    completionStatus.textContent = "Status video: Selesai";
+}
 
-        if (seconds === 0) {
-            clearInterval(countdownInterval);
-            if (phase === 2) {
-                showPopup("Lakukanlah istirahat selama 1 menit");
-            } else {
-                showPopup("Istirahat sudah selesai, segera lanjutkan vidio");
+const quizForm = document.getElementById("quizForm");
+if (quizForm) {
+    quizForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(quizForm);
+        let correctAnswers = 0;
+
+        for (let [questionId, answer] of formData.entries()) {
+            // Cari elemen input yang benar
+            const correctAnswerElement = document.querySelector(
+                `input[name="${questionId}"][data-correct="true"]`
+            );
+
+            // Periksa apakah jawaban pengguna sama dengan jawaban yang benar
+            if (correctAnswerElement && correctAnswerElement.value === answer) {
+                correctAnswers++;
             }
         }
-        seconds--;
-    }, 1000); // Update every second
-}
 
-function getYouTubeId(url) {
-    const regex =
-        /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-    const matches = url.match(regex);
-    return matches ? matches[1] : null;
-}
-
-function formatTime(seconds) {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes.toString().padStart(2, "0")}:${remainingSeconds
-        .toString()
-        .padStart(2, "0")}`;
-}
-
-
-// Fungsi video complite
-function markVideoAsCompleted() {
-    localStorage.setItem('videoCompleted_' + keyvideo, 'true');
+        showPopup(`You answered ${correctAnswers} questions correctly.`);
+    });
 }
