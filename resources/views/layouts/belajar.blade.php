@@ -4,7 +4,8 @@
         {{-- Video Utama --}}
         <div id="videoContainer">
             @if ($video)
-                <h1 class="text-lg font-bold underline text-orange-500 md:text-3xl mb-2 dark:text-blue-500">
+                <h1 id="video-title"
+                    class="text-lg font-bold underline text-orange-500 md:text-3xl mb-2 dark:text-blue-500">
                     {{ $video->title }}
                 </h1>
                 <div class="">
@@ -124,6 +125,7 @@
             const videoUrl = "https://www.youtube.com/watch?v=" + keyvideo;
         </script>
     @endif
+
     <script src="{{ asset('js/module.js') }}"></script>
     {{-- <script src="{{ asset('js/module2.js') }}"></script> --}}
     <script src="https://www.youtube.com/iframe_api"></script>

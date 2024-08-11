@@ -14,6 +14,12 @@ function onYouTubeIframeAPIReady() {
     const videoUrl = "https://www.youtube.com/watch?v=" + keyvideo;
     const videoId = getYouTubeId(videoUrl);
 
+    // Simpan judul video diambil dari atribut data-title
+    const videoTitle = document.querySelector("#video-title").textContent;
+
+    // Simpan keyvideo, URL halaman saat ini, dan judul video ke localStorage
+    saveVideoData(keyvideo, videoTitle);
+
     videoPlayer = new YT.Player("player", {
         videoId: videoId,
         events: {
@@ -135,9 +141,9 @@ function hidePopup() {
     } else {
         if (phase === 1) {
             startScenario(); // Start next phase when the popup is closed
-        } else if (phase === 2) {
-            startScenario(); // Start next phase when the popup is closed
             document.getElementById("rest").hidden = true;
+        } else if (phase === 2) {
+            startScenario();
         }
     }
 }
@@ -320,4 +326,13 @@ if (quizForm) {
             option.setAttribute("data-correct", "true");
         }
     });
+}
+
+// Fungsi terakhir ditonton
+// Fungsi untuk menyimpan keyvideo dan URL ke localStorage
+function saveVideoData(keyvideo, title) {
+    const currentUrl = window.location.href;
+    localStorage.setItem("keyvideo", keyvideo);
+    localStorage.setItem("pageUrl", currentUrl);
+    localStorage.setItem("videoTitle", title);
 }

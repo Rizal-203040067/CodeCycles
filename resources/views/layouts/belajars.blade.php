@@ -2,14 +2,13 @@
     <h1 class="my-6 text-8xl font-bold text-center dark:text-white">CodeCycles</h1>
 
     <div class="max-w-screen-xl items-center justify-between space-y-4 my-4 mx-auto">
-        <a href="" class="dark:text-white hover:text-orange-500 dark:hover:text-blue-500">
+        <a href="" id="video-link" class="dark:text-white hover:text-orange-500 dark:hover:text-blue-500">
             <div
                 class="mx-56 bg-white border border-orange-500 rounded-lg shadow dark:bg-gray-800 dark:border-blue-500 hover:bg-gray-100">
                 <div class="flex flex-row w-full h-32 m-2 space-x-3">
-                    <img src="https://img.youtube.com/vi/T1TR-RGf2Pw/0.jpg" class="h-full" alt="Thumbnail" />
+                    <img id="thumbnail" src="" class="h-full" alt="Thumbnail" />
                     <div class="my-4">
-                        <h1 class="text-4xl font-bold">
-                            Belajar Laravel 11 | 1. Intro</h1>
+                        <h1 id="video-title" class="text-4xl font-bold"></h1>
                     </div>
                 </div>
             </div>
@@ -39,5 +38,6 @@
         </div>
     </div>
 
+    <script src="{{ asset('js/lastwatched.js') }}"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 </x-layout>
